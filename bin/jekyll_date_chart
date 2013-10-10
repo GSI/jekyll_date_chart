@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+# Documentation for Thor action
+# http://rdoc.info/github/wycats/thor/master/Thor/Actions
+# https://github.com/erikhuda/thor/wiki/Actions
+
+require 'thor'
+
+
+
+class JekyllDateChart < Thor
+  include Thor::Actions
+
+	desc 'generate',
+		'Copies Raphaël, morris.js and jekyll_date_chart.js to the projects assets directory'
+	#method_option :all, :aliases => '-a', :desc => 'Install all'
+	def generate()
+		jdc='jekyll_date_chart.js'
+		copy_file "lib/#{jdc}", "_assets/javascripts/#{jdc}"
+
+		Dir.glob('vendor/assets/javascripts/*.js') do |js_file|
+		  copy_file js_file, "_assets/javascripts/#{File.basename(js_file)}"
+    end
+
+		Dir.glob('vendor/assets/stylesheets/*.css') do |css_file|
+		  copy_file css_file, "_assets/javascripts/#{File.basename(css_file)}"
+    end
+	end
+
+
+	def self.source_root
+		File.dirname(__FILE__) + '/..'
+	end
+end
+
+JekyllDateChart.start

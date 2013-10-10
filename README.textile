@@ -1,0 +1,165 @@
+h1. Jekyll Date Chart
+
+This Jekyll plugin renders date-related line charts based on textile-formatted tables. While the plugins focus lies on presenting financial data, it may be also used for other date-related statistics.
+
+The actual charts are drawn via JavaScript using "morris.js(morris.js - good-looking charts shouldn't be difficult)":http://www.oesmith.co.uk/morris.js/ which relies on "Raphaël(Raphaël - JavaScript library for simplified work with vector graphics)":http://raphaeljs.com/ and "JQuery(JQuery - write less, do more)":http://jquery.com/
+
+
+
+
+h2. Installation
+
+
+h3. Step 1: Install and include the gem
+
+Set the constant @PATH_TO_JEKYLL_SITE@ correctly and execute these commands accordingly:
+
+pre. cd ${PATH_TO_JEKYLL_SITE}
+echo "gem 'jekyll_date_chart'" >> Gemfile
+bundle
+echo "require 'jekyll_date_chart'" >> _plugins/ext.rb
+
+
+*Alternatively* you may accomplish the same _without_ @echo@ and @bundle@:
+
+# Install the plugin by running @gem install jekyll_date_chart@
+# Add the line @require 'jekyll_date_chart'@ to *_plugins/ext.rb*
+
+
+h3. Step 2: Generate the required JavaScript libraries
+
+For convenience, **Jekyll Date Chart** ships **Raphaël** and **morris.js**.
+
+In order to copy these two libraries, execute the newly available **jekyll_date_chart** command from within the project directory:
+
+pre. cd ${PATH_TO_JEKYLL_SITE}
+jekyll_date_chart generate
+
+*Note:* As **JQuery** is commonly used in many project, it has to be manually installed into any projects that are missing it at this step.
+
+
+
+h3. Step 3: Include the morris.js CSS in the HTML template
+
+Ensure that the @morris.css@ file is properly loaded by adding the following statement to the **head** element of the HTML template:
+
+pre. {% stylesheet morris.css %}
+
+_Based on your setup you may want to use the minified version **morris.min.css** instead._
+
+
+h3. Step 3: Include all required JavaScript libraries in the HTML template
+
+Typically just before your *closing HTML body tag* (@</body>@), add the according lines:
+
+pre.. <!- JQuery -!>
+
+{% javascript raphael %}
+{% javascript morris %}
+{% javascript jekyll_date_chart.js %}
+
+<!- custom JavaScript -!>
+
+
+
+h2. Usage
+
+The generate a chart, enclose one or more textile-style tables in a @dchart@ block:
+
+pre.. {% dchart %}
+| title of first table  | Unit of given values | comments on the table as a whole |
+| 09.09.2013            |                =1000 | comment on thes specific element |
+| 10.10.2013            |               =+1000 | comment on thes specific element |
+| 11.11.2013            |                +1000 | comment on thes specific element |
+
+| title of second table | Unit of given values | comments on the table as a whole |
+| 09.09.2013            |               =-2000 | comment on thes specific element |
+| 10.10.2013            |                =2000 | comment on thes specific element |
+| 12.12.2013            |                -2000 | comment on thes specific element |
+{% enddchart %}
+
+
+
+h3. Valid Operators
+
+* @=@ (re)sets the balance to the provided value.
+* @+@ adds the provided value to the previous balance.
+* @-@ subtracts the provided value from the previous balance.
+
+
+h3. Notes
+
+# Multiple tables within the same block will result in graphs being drawn to the same chart.
+** For drawing to different charts, simply use additional blocks.
+** If **Jekyll Date Chart** fails to parse the content of the first column to a date, the beginning of a new table is assumed.
+# All units within one block have to match in order to have the build succeed.
+** This is intended to serve as a basic validity check and may later be coped with by converting certain units to others.
+
+
+h3. Restrictions
+
+# Currently the only @DD.MM.YYYY@ is accepted as date format.
+** *Future versions* are planned to accept other separators and formats (e.g. @YYYY/DD/MM@).
+# Any dot @.@ in the second column is currently ignored while commas @,@ act as decimal points.
+** *Future versions* will likely consider both, dots and commas, as decimal marks while allowing spaces @ @ and underscores @_@ for digit grouping.
+# Special Textile-directives in the tables (e.g. @|_. some_head|@ will most likely crash **Jekyll Date Chart** or lead to undesired behaviour.
+** This will be addressed in **future versions**.
+
+
+h3. Further examples
+
+
+"This article(Groovy Skills International - Bye, Bye Spreadsheet. Hi, Jekyll Date Chart!)":http://groovy-skills.com/jekyll/2013/10/10/bye-bye-spreadsheet-hi-jekyll-date-chart/ shows same basic tables with actual charts.
+
+
+
+h2. Features
+
+"Planned improvements" move here once implemented.
+
+h3. Reliability
+
+# Generates a line representing the total for any date with multiple entries
+# Considers all accounts when calculating the "total" of a given date
+
+h3. Functionality
+
+# Merges data of multiple tables into one chart
+# Calculates a total for any date provided
+
+
+
+h2. Planned Improvements
+
+The following lists ideas for improvements in descending order of subjectively perceived importance.
+
+h3. Reliability
+
+# Tables starting with a plus or minus entry should assume a starting value of 0
+# Reduce ykeys to lower case string with only letters, numbers and hyphens ("labels" should still use the unmodified variant)
+# Support advanced Textile markup (by ignoring it)
+# Ensure unique CSS id in generated DIV
+# Extract inline style definition from generated DIV
+# Add warning when assuming the signifacation of a value (value without algebraic sign is assumed to be an addition)
+# Allow additional date formats (see **Restrictions** above)
+# Consider both, dots and commas, as decimal marks (see **Restrictions** above)
+# Accept whitespaces and underscores in numbers (see **Restrictions** above)
+
+h3. Functionality
+
+# Make calculation of total optional, but keep it as default
+# Add Textile styling for pretty-formatting values. Eg right-alignment via >. (ex |>. 10 |)
+# Allow selection of target CSS id for drawing the chart
+# Add visibility setting for the source table itself
+# Optionally add last common (or todays) value for each graph in order to terminate at the same point and allow final calculation of total variable
+# Put data-entries directly into rendered table element
+# Add support for multiple-currencies within one chart by converting to a specified target currency
+** Optionally use Open Exchange Rates ("money-open-exchange-rates":https://rubygems.org/gems/money-open-exchange-rates, "open_exchange_rates":https://rubygems.org/gems/open_exchange_rates)
+** Optionally use historical rate for every date in the timeline
+# Allow creation of a chart summing up all totals of all tables within a page (possibly in pure JavaScript)
+
+
+
+h2. License
+
+Jekyll Date Chart is released under the "MIT License":http://www.opensource.org/licenses/MIT.
