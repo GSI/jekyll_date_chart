@@ -71,14 +71,14 @@ To generate a chart, enclose one or more textile-style tables in a @dchart@ bloc
 
 pre.. {% dchart %}
 | title of first table  | Unit of given values | comments on the table as a whole |
-| 09.09.2013            |                =1000 | comment on thes specific element |
-| 10.10.2013            |               =+1000 | comment on thes specific element |
-| 11.11.2013            |                +1000 | comment on thes specific element |
+| 09.09.2013            |                =1000 | comment on this specific element |
+| 10.10.2013            |               =+1000 | comment on this specific element |
+| 11.11.2013            |                +1000 | comment on this specific element |
   
 | title of second table | Unit of given values | comments on the table as a whole |
-| 09.09.2013            |               =-2000 | comment on thes specific element |
-| 10.10.2013            |                =2000 | comment on thes specific element |
-| 12.12.2013            |                -2000 | comment on thes specific element |
+| 09.09.2013            |               =-2000 | comment on this specific element |
+| 10.10.2013            |                =2000 | comment on this specific element |
+| 12.12.2013            |                -2000 | comment on this specific element |
 {% enddchart %}
 
 
