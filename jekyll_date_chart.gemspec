@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'jekyll_date_chart'
-  s.version     = '0.0.1'
-  s.date        = '2013-10-10'
+  s.version     = '0.0.2'
+  s.date        = '2013-10-16'
   s.summary     = 'Jekyll Date Chart'
   s.description = 'Jekyll block that renders date line charts based on textile-formatted tables'
   s.authors     = ['GSI']

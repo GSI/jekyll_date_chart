@@ -19,13 +19,8 @@ class JekyllDateChart < Thor
 		jdc='jekyll_date_chart.js'
 		copy_file "lib/#{jdc}", "_assets/javascripts/#{jdc}"
 
-		Dir.glob('vendor/assets/javascripts/*.js') do |js_file|
-		  copy_file js_file, "_assets/javascripts/#{File.basename(js_file)}"
-    end
-
-		Dir.glob('vendor/assets/stylesheets/*.css') do |css_file|
-		  copy_file css_file, "_assets/javascripts/#{File.basename(css_file)}"
-    end
+		directory 'vendor/assets/javascripts/', '_assets/javascripts/'
+		directory 'vendor/assets/stylesheets/', '_assets/stylesheets/'
 	end
 
 
