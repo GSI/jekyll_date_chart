@@ -4,6 +4,8 @@ This Jekyll plugin renders date-related line charts based on textile-formatted t
 
 While the plugin focuses on the presentation of financial data, it may also be used to display other date-related statistics.
 
+!screenshots/jekyll_date_chart.png(Example chart generated via Jekyll Date Chart)!
+
 The actual charts are drawn via JavaScript using "morris.js(morris.js - good-looking charts shouldn't be difficult)":http://www.oesmith.co.uk/morris.js/ relying on "Raphaël(Raphaël - JavaScript library for simplified work with vector graphics)":http://raphaeljs.com/ and "JQuery(JQuery - write less, do more)":http://jquery.com/.
 
 
